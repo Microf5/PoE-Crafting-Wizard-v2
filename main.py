@@ -3,6 +3,7 @@ import time
 import keyboard
 import tkinter as tk
 from tkinter import simpledialog
+import PySimpleGUI as sg
 
 def checkIfHighlight():
   if(pyautogui.pixelMatchesColor(326, 371, (231, 180, 119))):
@@ -43,15 +44,26 @@ time.sleep(2)
 #altSpam()
 #checks to see if it actually matches
 # Top level window
-ROOT = tk.Tk()
 
-ROOT.withdraw()
-# the input dialog
-USER_INP = simpledialog.askstring(title="wheee",
-                                  prompt="Enter mod rolling for: ")
 
-# check it out
-altRoll(USER_INP)
+sg.theme('DarkAmber')   # Add a touch of color
+# All the stuff inside your window.
+layout = [  [sg.Text('Press Space to Break Out of Rolling')],
+            [sg.Text('Enter Mod Rolling For: '), sg.InputText()],
+            [sg.Button('Alt Spam'), sg.Button('Alt Regal (Coming Soon)'),] ]
+
+# Create the Window
+window = sg.Window('Pog Layout', layout)
+# Event Loop to process "events" and get the "values" of the inputs
+while True:
+    event, values = window.read()
+    if event == sg.WIN_CLOSED or event == 'Alt Regal': # if user closes window or clicks cancel
+        break
+    elif event == 'Alt Spam':
+       altRoll(values[0])
+
+window.close()
+#altRoll(USER_INP)
 
 
 
