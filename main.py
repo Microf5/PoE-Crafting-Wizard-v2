@@ -1,46 +1,66 @@
-import pyautogui as pyag
+import pyautogui
 import time
-import cv2, numpy
+import keyboard
+import tkinter as tk
+from tkinter import simpledialog
+
+def checkIfHighlight():
+  if(pyautogui.pixelMatchesColor(326, 371, (231, 180, 119))):
+      return True
+  return False
+
+def searchQueryOut(query):
+   pyautogui.moveTo(480, 899)
+   pyautogui.leftClick() 
+   pyautogui.write(query)
 
 
-def print_hi(name):
-    screenWidth, screenHeight = pyautogui.size()
-    time.sleep(1)
-    altLocation = pyag.locateCenterOnScreen('alteration.png', region=(0, 0, screenWidth, screenHeight),
-                                                 confidence=(.65))
-    # prob need to find a better way to locate this, it like - only works depending on how many alts u have
-    print(altLocation)
-    pyag.moveTo(altLocation)
-    craftLocation = pyag.locateCenterOnScreen('wherecraft.png', region=(0, 0, screenWidth, screenHeight),
-                                                   confidence=(.9))
-    print(craftLocation)
-    pyag.moveTo(craftLocation)
-    searchLocation = pyg.locateCenterOnScreen('searchbox.png', region=(0, 0, screenWidth, screenHeight),
-                                                    confidence=(.9))
-    print(searchLocation)
-    pyag.moveTo(searchLocation)
+def altSpam():
+    pyautogui.moveTo(112, 264)
+    pyautogui.rightClick()
+    pyautogui.keyDown('shift')
+    pyautogui.moveTo(343,460)
+    while(True):
+       if keyboard.is_pressed('space'):
+          pyautogui.keyUp('shift')
+          break
+       if checkIfHighlight():
+          pyautogui.keyUp('shift')
+          break
+       pyautogui.leftClick()
+
+def altRoll(query):
+   searchQueryOut(query)
+   altSpam()
+
+time.sleep(2)
+#searchQueryOut("poggers people");
+#checkIfHighlight()
+
+#pyautogui.moveTo(438, 275)
+#pyautogui.leftClick()  
+#print(pyautogui.position())
+#altSpam()
+#checks to see if it actually matches
+# Top level window
+ROOT = tk.Tk()
+
+ROOT.withdraw()
+# the input dialog
+USER_INP = simpledialog.askstring(title="wheee",
+                                  prompt="Enter mod rolling for: ")
+
+# check it out
+altRoll(USER_INP)
 
 
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# TODO:
-# MAKE STUFF WORK, THEN ADD ALT REGAL SPAM
-# MAY NEED TO GET THE GRAYSCALED(ones that dont fit search) IMAGES OF SOME ITEMS
-# STUFF EVERYTHING INTO A MAP/DICTIONARY?
-# IMPLEMENT FAILSAFES -> NOT ON RIGHT STASHTAB OR RUN OUT OF A MATERIAL OR SOMETHING WRONG
 
 
-# ALT REGAL SPAM STUFF
-
-
-# regalLocation = pyautogui.locateCenterOnScreen('regal.png', region=(0, 0, screenWidth, screenHeight),confidence=(.6))
-# print(regalLocation)
-# pyautogui.moveTo(regalLocation)
-# scourLocation = pyautogui.locateCenterOnScreen('scour.png', region=(0, 0, screenWidth, screenHeight),confidence=(.6))
-# print(scourLocation)
-# pyautogui.moveTo(scourLocation)
-# transmuteLocation = pyautogui.locateCenterOnScreen('transmute.png', region=(0, 0, screenWidth, screenHeight),confidence=(.6))
-# print(transmuteLocation)
-# pyautogui.moveTo(transmuteLocation)
-
+#locations of things:
+#highlighted item: (326,371)
+#item to click on: (343,460)
+#searchbox: (480,899)
+#alts: (112,264)
+#regals: (438, 275)
+#transmutes: (56,265)
+#scours: (433,512)
